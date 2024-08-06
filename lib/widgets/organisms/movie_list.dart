@@ -38,9 +38,8 @@ class _MovieListState extends State<MovieList> {
   }
 
   void loadMoreProducts() {
-    if (widget.scrollController.position.pixels > widget.scrollController.position.maxScrollExtent) return;
+    if (widget.scrollController.position.pixels != widget.scrollController.position.maxScrollExtent) return;
     if (_store.isLoading) return;
-    print('aqui');
 
     _store.getMoreMovies();
   }

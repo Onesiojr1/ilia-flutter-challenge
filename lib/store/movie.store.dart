@@ -28,6 +28,7 @@ abstract class MovieStoreBase with Store {
       final movies = await service.getPopularMovies();
       _movies = [..._movies!, ...movies.movies];
       _genres = await service.getAllGenre();
+      _page++;
     } catch (e) {
       print(e);
     } finally {
@@ -37,11 +38,8 @@ abstract class MovieStoreBase with Store {
 
   @action
   Future<void> getMoreMovies() async {
-    print(_page);
     final movies = await service.getPopularMovies(page: _page);
     _movies = [..._movies!, ...movies.movies];
     movies.totalPages > _page ? _page++ : _page = movies.totalPages;
-    print(_page);
-
   }
 }

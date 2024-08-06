@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
 import 'package:ilia_flutter_challenge/store/movie.store.dart';
+import 'package:ilia_flutter_challenge/widgets/atoms/custom_back_button.dart';
 import 'package:ilia_flutter_challenge/widgets/atoms/separator.dart';
 import 'package:ilia_flutter_challenge/widgets/molecules/movie_trailer.dart';
 
@@ -126,7 +126,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                   ),
                                 ],
                               )
-                
                             ],
                           ),
                           const Separator(),
@@ -176,19 +175,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 );
               }
             ),
-            Positioned(
+            const Positioned(
               left: 16,
               top: 32,
-              child: CupertinoButton(
-                minSize: 0,
-                padding: EdgeInsets.zero,
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Icon(
-                  Icons.chevron_left,
-                  color: Colors.white,
-                  size: 32,
-                ),
-              ),
+              child: CustomBackButton()
             ),
           ],
         ),

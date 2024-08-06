@@ -80,6 +80,24 @@ mixin _$MovieStore on MovieStoreBase, Store {
     });
   }
 
+  late final _$_finalTrailerAtom =
+      Atom(name: 'MovieStoreBase._finalTrailer', context: context);
+
+  Videos? get finalTrailer {
+    _$_finalTrailerAtom.reportRead();
+    return super._finalTrailer;
+  }
+
+  @override
+  Videos? get _finalTrailer => finalTrailer;
+
+  @override
+  set _finalTrailer(Videos? value) {
+    _$_finalTrailerAtom.reportWrite(value, super._finalTrailer, () {
+      super._finalTrailer = value;
+    });
+  }
+
   late final _$getMoviesDataAsyncAction =
       AsyncAction('MovieStoreBase.getMoviesData', context: context);
 
@@ -94,6 +112,14 @@ mixin _$MovieStore on MovieStoreBase, Store {
   @override
   Future<void> getMoreMovies() {
     return _$getMoreMoviesAsyncAction.run(() => super.getMoreMovies());
+  }
+
+  late final _$getMovieTrailerAsyncAction =
+      AsyncAction('MovieStoreBase.getMovieTrailer', context: context);
+
+  @override
+  Future<void> getMovieTrailer(int id) {
+    return _$getMovieTrailerAsyncAction.run(() => super.getMovieTrailer(id));
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
+import 'package:ilia_flutter_challenge/model/movie_videos.dart';
 import 'package:ilia_flutter_challenge/services/movie_service.dart';
 import 'package:mobx/mobx.dart';
 part 'movie.store.g.dart';
@@ -21,6 +22,9 @@ abstract class MovieStoreBase with Store {
   @readonly
   int _page = 1;
 
+  @readonly
+  Videos? _finalTrailer;
+
   @action
   Future<void> getMoviesData() async {
     _isLoading = true;
@@ -41,5 +45,12 @@ abstract class MovieStoreBase with Store {
     final movies = await service.getPopularMovies(page: _page);
     _movies = [..._movies!, ...movies.movies];
     movies.totalPages > _page ? _page++ : _page = movies.totalPages;
+  }
+
+  @action
+  Future<void> getMovieTrailer(int id) async{
+    final trailer = await service.getTrailer(id);
+    _finalTrailer = trailer.results.where((trailer) => trailer.type == 'Trailer').first;
+    print(_finalTrailer!.key);
   }
 }

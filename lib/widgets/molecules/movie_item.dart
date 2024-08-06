@@ -1,20 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ilia_flutter_challenge/Services/movie_service.dart';
+import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
+import 'package:ilia_flutter_challenge/screens/movie_details_screen.dart';
 
 class MovieItem extends StatelessWidget {
   final Movie movie;
-  const MovieItem({super.key, required this.movie});
+  final List<Genre> genres;
+  const MovieItem({
+    super.key, 
+    required this.movie,
+    required this.genres,
+  });
+
+  String getGenres() {
+    String result = '';
+
+    genres.where((genre) => movie.genreIds.contains(genre.id)).forEach((genre) {
+      result += '${genre.name}, ';
+    });
+
+    return result.substring(0, result.length - 2);
+  }
 
   @override
   Widget build(BuildContext context) {
     return  CupertinoButton(
       minSize: 0,
       padding: EdgeInsets.zero,
-      onPressed: () async {
-        await MovieService().getAllGenre();
-      },
+      onPressed: () => Navigator.of(context)
+        .push(MaterialPageRoute(
+          builder: (context) => MovieDetailsScreen(movie: movie, genres: genres,),
+        ),
+      ),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         width: double.infinity,
@@ -43,9 +61,9 @@ class MovieItem extends StatelessWidget {
                         fontSize: 24,
                       ),
                     ),
-                    const Text(
-                      'Action, adventure', //TODO: get genres from api
-                      style: TextStyle(
+                    Text(
+                      getGenres(),
+                      style: const TextStyle(
                         color: Color(0xFF82828f),
                         fontSize: 18,
                       ),

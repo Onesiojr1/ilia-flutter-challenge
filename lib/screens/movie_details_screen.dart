@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
+import 'package:ilia_flutter_challenge/store/movie.store.dart';
 import 'package:ilia_flutter_challenge/widgets/atoms/separator.dart';
+import 'package:ilia_flutter_challenge/widgets/molecules/movie_trailer.dart';
 
-class MovieDetailsScreen extends StatelessWidget {
+class MovieDetailsScreen extends StatefulWidget {
   final Movie movie;
   final List<Genre> genres;
 
@@ -14,10 +17,27 @@ class MovieDetailsScreen extends StatelessWidget {
     required this.genres,
   });
 
+  @override
+  State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
+}
+
+class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+  final _store = MovieStore();
+
+  @override
+  void initState() {
+    super.initState();
+    _getMovietrailer();
+  }
+
+  Future<void> _getMovietrailer() async {
+    await _store.getMovieTrailer(widget.movie.id);
+  }
+
   String getGenres() {
     String result = '';
 
-    genres.where((genre) => movie.genreIds.contains(genre.id)).forEach((genre) {
+    widget.genres.where((genre) => widget.movie.genreIds.contains(genre.id)).forEach((genre) {
       result += '${genre.name}, ';
     });
 
@@ -31,101 +51,130 @@ class MovieDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 345,
-                  child: Image.network(
-                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        movie.title,
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
+            Observer(
+              builder: (context) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: 345,
+                      child: Image.network(
+                        'https://image.tmdb.org/t/p/w500${widget.movie.posterPath}',
+                        fit: BoxFit.cover,
                       ),
-                      Text(
-                        getGenres(),
-                        style: const TextStyle(
-                          color: Color(0xFF82828f),
-                          fontSize: 16,
-                        ),
-                      ),
-                      const Separator(),
-                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          Text(
+                            widget.movie.title,
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
+                          Text(
+                            getGenres(),
+                            style: const TextStyle(
+                              color: Color(0xFF82828f),
+                              fontSize: 16,
+                            ),
+                          ),
+                          const Separator(),
+                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                'Movie Release Date:',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Movie Release Date:',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    widget.movie.releaseDate,
+                                    style: const TextStyle(
+                                      color: Color(0xFF82828f),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                movie.releaseDate,
-                                style: const TextStyle(
-                                  color: Color(0xFF82828f),
-                                  fontSize: 16,
-                                ),
-                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    'Movie Populaity:',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    widget.movie.popularity.toString(),
+                                    style: const TextStyle(
+                                      color: Color(0xFF82828f),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              )
+                
                             ],
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Movie Populaity:',
+                          const Separator(),
+                          const Text(
+                            'Movie Overview:',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            widget.movie.overview,
+                            style: const TextStyle(
+                              color: Color(0xFF82828f),
+                              fontSize: 16,
+                            ),
+                          ),
+                          const Separator(),
+                          const Text(
+                            'Movie Trailer:',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          _store.isLoadingVideo
+                            ? _store.finalTrailer == null
+                              ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                              : const Text(
+                                'No movie trailer available',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
-                              ),
-                              Text(
-                                movie.popularity.toString(),
-                                style: const TextStyle(
-                                  color: Color(0xFF82828f),
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          )
-
+                              )
+                            : MovieTrailer(
+                              videoId: _store.finalTrailer?.key  ?? '',
+                            ),
+                          const SizedBox(height: 32),
                         ],
                       ),
-                      const Separator(),
-                      const Text(
-                        'Movie Overview:',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        movie.overview,
-                        style: const TextStyle(
-                          color: Color(0xFF82828f),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                    ),
+                  ],
+                );
+              }
             ),
             Positioned(
               left: 16,

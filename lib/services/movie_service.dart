@@ -8,9 +8,9 @@ const accessTokenAuth = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMjkxNWI3YmI2ZGUzMDkyOD
 var client = http.Client();
 
 class MovieService {
-   Future<List<Movie>?> getPopularMovies() async {
+   Future<MovieResponse> getPopularMovies({int page = 1}) async {
     try {
-      final uri = Uri.parse('https://api.themoviedb.org/3/discover/movie?&language=en-US&page=1&sort_by=popularity.desc');
+      final uri = Uri.parse('https://api.themoviedb.org/3/discover/movie?&language=en-US&page=$page&sort_by=popularity.desc');
 
       final response = await client.get(
         uri, 
@@ -19,7 +19,9 @@ class MovieService {
           'accept': 'application/json',
         },
       );
-      return List<Movie>.from(json.decode(response.body)['results'].map((movie) => Movie.fromJson(movie)));
+      final movieResponse = MovieResponse.fromJson(json.decode(response.body));
+
+      return movieResponse;
     } catch(e) {
       throw Error();
     }
@@ -37,6 +39,7 @@ class MovieService {
           'accept': 'application/json',
         },
       );
+
       return List<Genre>.from(json.decode(response.body)['genres'].map((genre) => Genre.fromJson(genre)));
 
     } catch(e) {

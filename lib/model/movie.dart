@@ -26,3 +26,17 @@ class Movie{
       releaseDate = json['release_date'],
       title = json['title'];
 }
+
+
+class MovieResponse {
+  int page;
+  List<Movie> movies;
+  int totalPages;
+  int totalResults;
+
+  MovieResponse.fromJson(Map<String, dynamic> json)
+    : page = json['page'],
+      movies = List<Movie>.from(json['results'].map((movie) => Movie.fromJson(movie))),
+      totalPages = json['total_pages'],
+      totalResults = json['total_results'];
+}

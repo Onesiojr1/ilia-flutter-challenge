@@ -25,6 +25,9 @@ abstract class MovieStoreBase with Store {
   @readonly
   Videos? _finalTrailer;
 
+  @readonly
+  bool _isLoadingVideo = false;
+
   @action
   Future<void> getMoviesData() async {
     _isLoading = true;
@@ -49,8 +52,9 @@ abstract class MovieStoreBase with Store {
 
   @action
   Future<void> getMovieTrailer(int id) async{
+    _isLoadingVideo = true;
     final trailer = await service.getTrailer(id);
     _finalTrailer = trailer.results.where((trailer) => trailer.type == 'Trailer').first;
-    print(_finalTrailer!.key);
+    _isLoadingVideo = false;
   }
 }

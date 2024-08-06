@@ -98,6 +98,24 @@ mixin _$MovieStore on MovieStoreBase, Store {
     });
   }
 
+  late final _$_isLoadingVideoAtom =
+      Atom(name: 'MovieStoreBase._isLoadingVideo', context: context);
+
+  bool get isLoadingVideo {
+    _$_isLoadingVideoAtom.reportRead();
+    return super._isLoadingVideo;
+  }
+
+  @override
+  bool get _isLoadingVideo => isLoadingVideo;
+
+  @override
+  set _isLoadingVideo(bool value) {
+    _$_isLoadingVideoAtom.reportWrite(value, super._isLoadingVideo, () {
+      super._isLoadingVideo = value;
+    });
+  }
+
   late final _$getMoviesDataAsyncAction =
       AsyncAction('MovieStoreBase.getMoviesData', context: context);
 

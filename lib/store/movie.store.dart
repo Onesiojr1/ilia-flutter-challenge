@@ -32,7 +32,7 @@ abstract class MovieStoreBase with Store {
   Future<void> getMoviesData() async {
     _isLoading = true;
     try {
-      final movies = await service.getPopularMovies();
+      final movies = await service.getMovies();
       _movies = [..._movies!, ...movies.movies];
       _genres = await service.getAllGenre();
       _page++;
@@ -45,7 +45,7 @@ abstract class MovieStoreBase with Store {
 
   @action
   Future<void> getMoreMovies() async {
-    final movies = await service.getPopularMovies(page: _page);
+    final movies = await service.getMovies(page: _page);
     _movies = [..._movies!, ...movies.movies];
     movies.totalPages > _page ? _page++ : _page = movies.totalPages;
   }
@@ -54,7 +54,7 @@ abstract class MovieStoreBase with Store {
   Future<void> getMovieTrailer(int id) async{
     _isLoadingVideo = true;
     final trailer = await service.getTrailer(id);
-    _finalTrailer = trailer.results.where((trailer) => trailer.type == 'Trailer').first;
+    _finalTrailer = trailer.results.where((trailer) => trailer.type == 'Trailer').firstOrNull;
     _isLoadingVideo = false;
   }
 }

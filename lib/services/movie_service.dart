@@ -13,7 +13,7 @@ class MovieService {
 
    Future<MovieResponse> getPopularMovies({int page = 1}) async {
     try {
-      final uri = Uri.parse('$baseUrl/discover/movie?&language=en-US&page=$page&sort_by=popularity.desc');
+      final uri = Uri.parse('$baseUrl/movie/now_playing?language=en-US&page=$page&sort_by=popularity.desc');
 
       final response = await client.get(
         uri, 

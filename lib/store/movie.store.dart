@@ -29,7 +29,7 @@ abstract class MovieStoreBase with Store {
   bool _isLoadingVideo = false;
 
   @readonly
-  List<Movie> _searchMovies = [];
+  List<Movie>? _searchMovies;
 
   @action
   Future<void> getMoviesData() async {
@@ -71,6 +71,6 @@ abstract class MovieStoreBase with Store {
 
   @action
   void clearSearch() {
-    _searchMovies = [];
+    _searchMovies = null;
   }
 }

@@ -119,16 +119,16 @@ mixin _$MovieStore on MovieStoreBase, Store {
   late final _$_searchMoviesAtom =
       Atom(name: 'MovieStoreBase._searchMovies', context: context);
 
-  List<Movie> get searchMovies {
+  List<Movie>? get searchMovies {
     _$_searchMoviesAtom.reportRead();
     return super._searchMovies;
   }
 
   @override
-  List<Movie> get _searchMovies => searchMovies;
+  List<Movie>? get _searchMovies => searchMovies;
 
   @override
-  set _searchMovies(List<Movie> value) {
+  set _searchMovies(List<Movie>? value) {
     _$_searchMoviesAtom.reportWrite(value, super._searchMovies, () {
       super._searchMovies = value;
     });

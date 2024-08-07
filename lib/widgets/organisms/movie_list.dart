@@ -56,7 +56,7 @@ class _MovieListState extends State<MovieList> {
               ? const Center(
                 child: CircularProgressIndicator(),
                 ) 
-              : widget.store.searchMovies.isEmpty
+              : widget.store.searchMovies == null
                 ? ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),  
                   shrinkWrap: true,
@@ -71,10 +71,11 @@ class _MovieListState extends State<MovieList> {
                 : ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),  
                   shrinkWrap: true,
-                  itemCount: widget.store.searchMovies.length,
+                  itemCount: widget.store.searchMovies!.isEmpty ? 1 : widget.store.searchMovies!.length,
                   itemBuilder: (BuildContext context, int index) {
+                    if(widget.store.searchMovies!.isEmpty) return const Text('No movie found', style: TextStyle(color: Colors.white, fontSize: 18));
                     return MovieItem(
-                      movie: widget.store.searchMovies[index],
+                      movie: widget.store.searchMovies![index],
                       genres: widget.store.genres!,
                     );
                   },

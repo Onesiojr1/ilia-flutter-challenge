@@ -34,16 +34,11 @@ abstract class MovieStoreBase with Store {
   @action
   Future<void> getMoviesData() async {
     _isLoading = true;
-    try {
-      final movies = await service.getMovies();
-      _movies = [..._movies!, ...movies.movies];
-      _genres = await service.getAllGenre();
-      _page++;
-    } catch (e) {
-      print(e);
-    } finally {
-      _isLoading = false;
-    }
+    final movies = await service.getMovies();
+    _movies = [..._movies!, ...movies.movies];
+    _genres = await service.getAllGenre();
+    _page++;
+    _isLoading = false;
   }
 
   @action

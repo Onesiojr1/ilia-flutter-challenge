@@ -12,58 +12,44 @@ class MovieService {
   final baseUrl = 'https://api.themoviedb.org/3';
 
    Future<MovieResponse> getMovies({int page = 1}) async {
-    try {
-      final uri = Uri.parse('$baseUrl/movie/now_playing?language=en-US&page=$page&sort_by=popularity.desc');
+    final uri = Uri.parse('$baseUrl/movie/now_playing?language=en-US&page=$page&sort_by=popularity.desc');
 
-      final response = await client.get(
-        uri, 
-        headers: {
-          'Authorization': 'Bearer $accessTokenAuth',
-          'accept': 'application/json',
-        },
-      );
+    final response = await client.get(
+      uri, 
+      headers: {
+        'Authorization': 'Bearer $accessTokenAuth',
+        'accept': 'application/json',
+      },
+    );
 
-      return MovieResponse.fromJson(json.decode(response.body));
-    } catch(e) {
-      throw Error();
-    }
+    return MovieResponse.fromJson(json.decode(response.body));
   }
 
   Future<List<Genre>?> getAllGenre() async {
-    try{
-      final uri = Uri.parse('$baseUrl/genre/movie/list');
+    final uri = Uri.parse('$baseUrl/genre/movie/list');
 
-      final response = await client.get(
-        uri, 
-        headers: {
-          'Authorization': 'Bearer $accessTokenAuth',
-          'accept': 'application/json',
-        },
-      );
+    final response = await client.get(
+      uri, 
+      headers: {
+        'Authorization': 'Bearer $accessTokenAuth',
+        'accept': 'application/json',
+      },
+    );
 
-      return List<Genre>.from(json.decode(response.body)['genres'].map((genre) => Genre.fromJson(genre)));
-
-    } catch(e) {
-      throw Error();
-    }
+    return List<Genre>.from(json.decode(response.body)['genres'].map((genre) => Genre.fromJson(genre)));
   }
 
   Future<VideoResponse> getTrailer(int id) async {
-    try {
-      final uri = Uri.parse('$baseUrl/movie/$id/videos');
+    final uri = Uri.parse('$baseUrl/movie/$id/videos');
 
-      final response = await client.get(
-        uri, 
-        headers: {
-          'Authorization': 'Bearer $accessTokenAuth',
-          'accept': 'application/json',
-        },
-      );
-      return VideoResponse.fromJson(json.decode(response.body));
-
-    } catch (e){
-      throw Error();
-    }
+    final response = await client.get(
+      uri, 
+      headers: {
+        'Authorization': 'Bearer $accessTokenAuth',
+        'accept': 'application/json',
+      },
+    );
+    return VideoResponse.fromJson(json.decode(response.body));
   }
 
   Future<MovieResponse> searchMovie(String query) async {

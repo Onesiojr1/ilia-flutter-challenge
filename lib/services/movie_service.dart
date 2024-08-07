@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
 import 'package:ilia_flutter_challenge/model/movie_videos.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-const accessTokenAuth = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMjkxNWI3YmI2ZGUzMDkyODZmZmUzYmRkZGRiMTdhYiIsIm5iZiI6MTcyMjg4Njg4MC45MDk0MjIsInN1YiI6IjY2YjExZTgxMzUzN2MxN2FiY2M2MDgzMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Ptk2Z3bFqM_9sI3-Xpl8V9Sgwvmt3CbPNRya2yM9Lb4';
+final accessTokenAuth = dotenv.env['ACCESSTOKEN'];
 
 class MovieService {
   final client = http.Client();

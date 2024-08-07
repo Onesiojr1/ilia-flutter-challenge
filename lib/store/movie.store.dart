@@ -28,6 +28,9 @@ abstract class MovieStoreBase with Store {
   @readonly
   bool _isLoadingVideo = false;
 
+  @readonly
+  List<Movie> _searchMovies = [];
+
   @action
   Future<void> getMoviesData() async {
     _isLoading = true;
@@ -56,5 +59,18 @@ abstract class MovieStoreBase with Store {
     final trailer = await service.getTrailer(id);
     _finalTrailer = trailer.results.where((trailer) => trailer.type == 'Trailer').firstOrNull;
     _isLoadingVideo = false;
+  }
+
+  @action
+  Future<void> searchMovie(String query) async{
+    _isLoading = true;
+    final movieResponse = await service.searchMovie(query);
+    _searchMovies = movieResponse.movies;
+    _isLoading = false;
+  }
+
+  @action
+  void clearSearch() {
+    _searchMovies = [];
   }
 }

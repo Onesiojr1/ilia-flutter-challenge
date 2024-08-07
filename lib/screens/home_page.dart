@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ilia_flutter_challenge/store/movie.store.dart';
+import 'package:ilia_flutter_challenge/widgets/molecules/search_input.dart';
 import 'package:ilia_flutter_challenge/widgets/organisms/movie_list.dart';
 
 class HomePage extends StatelessWidget {
   final _scrollController = ScrollController();
+  final store = MovieStore();
 
   HomePage({super.key});
 
@@ -23,9 +26,12 @@ class HomePage extends StatelessWidget {
                   fontSize: 24,
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 8),
+              SearchInput(store: store),
+              const SizedBox(height: 8),
               MovieList(
                 scrollController: _scrollController,
+                store: store,
               ),
             ],
           ),

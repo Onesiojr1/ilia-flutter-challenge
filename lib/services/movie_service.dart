@@ -65,4 +65,18 @@ class MovieService {
       throw Error();
     }
   }
+
+  Future<MovieResponse> searchMovie(String query) async {
+    final uri = Uri.parse('$baseUrl/search/movie?query=$query');
+
+    final response = await client.get(
+        uri, 
+        headers: {
+          'Authorization': 'Bearer $accessTokenAuth',
+          'accept': 'application/json',
+        },
+      );
+
+      return MovieResponse.fromJson(json.decode(response.body));
+  }
 }

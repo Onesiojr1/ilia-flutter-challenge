@@ -5,9 +5,12 @@ import 'package:ilia_flutter_challenge/widgets/molecules/movie_item.dart';
 
 class MovieList extends StatefulWidget {
   final ScrollController scrollController;
+  final MovieStore store;
+  
   const MovieList({
     super.key, 
-    required this.scrollController,
+    required this.scrollController, 
+    required this.store,
   });
 
   @override
@@ -15,7 +18,6 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-  final _store = MovieStore();
 
   @override
   void initState() {
@@ -34,14 +36,14 @@ class _MovieListState extends State<MovieList> {
   }
 
   Future<void> _getMoviesData() async {
-    await _store.getMoviesData();
+    await widget.store.getMoviesData();
   }
 
   void loadMoreProducts() {
     if (widget.scrollController.position.pixels != widget.scrollController.position.maxScrollExtent) return;
-    if (_store.isLoading) return;
+    if (widget.store.isLoading) return;
 
-    _store.getMoreMovies();
+    widget.store.getMoreMovies();
   }
 
   @override
@@ -50,21 +52,33 @@ class _MovieListState extends State<MovieList> {
       builder: (context) {
         return Column(
           children: [
-            _store.isLoading 
+            widget.store.isLoading 
               ? const Center(
                 child: CircularProgressIndicator(),
                 ) 
-              : ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),  
-                shrinkWrap: true,
-                itemCount: _store.movies!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return MovieItem(
-                    movie: _store.movies![index],
-                    genres: _store.genres!,
-                  );
-                },
-              ),
+              : widget.store.searchMovies.isEmpty
+                ? ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),  
+                  shrinkWrap: true,
+                  itemCount: widget.store.movies!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MovieItem(
+                      movie: widget.store.movies![index],
+                      genres: widget.store.genres!,
+                    );
+                  },
+                )
+                : ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),  
+                  shrinkWrap: true,
+                  itemCount: widget.store.searchMovies.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MovieItem(
+                      movie: widget.store.searchMovies[index],
+                      genres: widget.store.genres!,
+                    );
+                  },
+                ),
           ],
         );
       }

@@ -116,6 +116,24 @@ mixin _$MovieStore on MovieStoreBase, Store {
     });
   }
 
+  late final _$_searchMoviesAtom =
+      Atom(name: 'MovieStoreBase._searchMovies', context: context);
+
+  List<Movie> get searchMovies {
+    _$_searchMoviesAtom.reportRead();
+    return super._searchMovies;
+  }
+
+  @override
+  List<Movie> get _searchMovies => searchMovies;
+
+  @override
+  set _searchMovies(List<Movie> value) {
+    _$_searchMoviesAtom.reportWrite(value, super._searchMovies, () {
+      super._searchMovies = value;
+    });
+  }
+
   late final _$getMoviesDataAsyncAction =
       AsyncAction('MovieStoreBase.getMoviesData', context: context);
 
@@ -138,6 +156,28 @@ mixin _$MovieStore on MovieStoreBase, Store {
   @override
   Future<void> getMovieTrailer(int id) {
     return _$getMovieTrailerAsyncAction.run(() => super.getMovieTrailer(id));
+  }
+
+  late final _$searchMovieAsyncAction =
+      AsyncAction('MovieStoreBase.searchMovie', context: context);
+
+  @override
+  Future<void> searchMovie(String query) {
+    return _$searchMovieAsyncAction.run(() => super.searchMovie(query));
+  }
+
+  late final _$MovieStoreBaseActionController =
+      ActionController(name: 'MovieStoreBase', context: context);
+
+  @override
+  void clearSearch() {
+    final _$actionInfo = _$MovieStoreBaseActionController.startAction(
+        name: 'MovieStoreBase.clearSearch');
+    try {
+      return super.clearSearch();
+    } finally {
+      _$MovieStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

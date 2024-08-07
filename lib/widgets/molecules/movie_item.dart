@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
 import 'package:ilia_flutter_challenge/screens/movie_details_screen.dart';
+import 'package:ilia_flutter_challenge/widgets/atoms/no_image.dart';
 
 class MovieItem extends StatelessWidget {
   final Movie movie;
@@ -15,6 +16,8 @@ class MovieItem extends StatelessWidget {
 
   String getGenres() {
     String result = '';
+
+    if(movie.genreIds.isEmpty) return 'No genre';
 
     genres.where((genre) => movie.genreIds.contains(genre.id)).forEach((genre) {
       result += '${genre.name}, ';
@@ -44,10 +47,12 @@ class MovieItem extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Image.network(
-                'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                width: 100,
-              ),
+              movie.posterPath == null
+                ? const NoImage()
+                : Image.network(
+                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                  width: 100,
+                ),
               const SizedBox(width: 16),
               Flexible(
                 child: Column(

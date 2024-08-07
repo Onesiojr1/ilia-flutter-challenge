@@ -4,6 +4,7 @@ import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
 import 'package:ilia_flutter_challenge/store/movie.store.dart';
 import 'package:ilia_flutter_challenge/widgets/atoms/custom_back_button.dart';
+import 'package:ilia_flutter_challenge/widgets/atoms/no_image.dart';
 import 'package:ilia_flutter_challenge/widgets/atoms/separator.dart';
 import 'package:ilia_flutter_challenge/widgets/molecules/movie_trailer.dart';
 
@@ -59,10 +60,12 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                     SizedBox(
                       width: double.infinity,
                       height: 345,
-                      child: Image.network(
-                        'https://image.tmdb.org/t/p/w500${widget.movie.posterPath}',
-                        fit: BoxFit.cover,
-                      ),
+                      child: widget.movie.posterPath == null
+                        ? const NoImage()
+                        : Image.network(
+                          'https://image.tmdb.org/t/p/w500${widget.movie.posterPath}',
+                          fit: BoxFit.cover,
+                        ),
                     ),
                     const SizedBox(height: 8),
                     Padding(

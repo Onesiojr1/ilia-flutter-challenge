@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ilia_flutter_challenge/model/genre.dart';
 import 'package:ilia_flutter_challenge/model/movie.dart';
 import 'package:ilia_flutter_challenge/model/movie_videos.dart';
@@ -55,7 +57,7 @@ abstract class MovieStoreBase with Store {
   Future<void> getMoreMovies() async {
     final movies = await service.getMovies(page: _page);
     _movies = [..._movies!, ...movies.movies];
-    movies.totalPages > _page ? _page++ : _page = movies.totalPages;
+    _page = min(_page + 1, movies.totalPages);
   }
 
   @action

@@ -3,7 +3,7 @@ class Movie{
   int id;
   String overview;
   double popularity;
-  String posterPath;
+  String? posterPath;
   String releaseDate;
   String title;
 

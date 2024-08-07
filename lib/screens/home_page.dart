@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:ilia_flutter_challenge/model/status_enum.dart';
 import 'package:ilia_flutter_challenge/store/movie.store.dart';
 import 'package:ilia_flutter_challenge/widgets/molecules/search_input.dart';
+import 'package:ilia_flutter_challenge/widgets/molecules/try_again.dart';
 import 'package:ilia_flutter_challenge/widgets/organisms/movie_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -29,9 +32,17 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 8),
               SearchInput(store: store),
               const SizedBox(height: 8),
-              MovieList(
-                scrollController: _scrollController,
-                store: store,
+              Observer(
+                builder: (context) {
+                  return store.status != StatusEnum.error
+                    ? MovieList(
+                      scrollController: _scrollController,
+                      store: store,
+                    )
+                    : TryAgain(
+                      tryAgain: () => store.getMoviesData(),
+                    );
+                }
               ),
             ],
           ),

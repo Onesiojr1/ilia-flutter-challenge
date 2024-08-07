@@ -134,6 +134,24 @@ mixin _$MovieStore on MovieStoreBase, Store {
     });
   }
 
+  late final _$_statusAtom =
+      Atom(name: 'MovieStoreBase._status', context: context);
+
+  StatusEnum? get status {
+    _$_statusAtom.reportRead();
+    return super._status;
+  }
+
+  @override
+  StatusEnum? get _status => status;
+
+  @override
+  set _status(StatusEnum? value) {
+    _$_statusAtom.reportWrite(value, super._status, () {
+      super._status = value;
+    });
+  }
+
   late final _$getMoviesDataAsyncAction =
       AsyncAction('MovieStoreBase.getMoviesData', context: context);
 

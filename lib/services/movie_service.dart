@@ -11,7 +11,7 @@ class MovieService {
   final client = http.Client();
   final baseUrl = 'https://api.themoviedb.org/3';
 
-   Future<MovieResponse> getPopularMovies({int page = 1}) async {
+   Future<MovieResponse> getMovies({int page = 1}) async {
     try {
       final uri = Uri.parse('$baseUrl/movie/now_playing?language=en-US&page=$page&sort_by=popularity.desc');
 

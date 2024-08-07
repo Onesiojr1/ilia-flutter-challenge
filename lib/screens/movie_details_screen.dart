@@ -152,21 +152,21 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          _store.isLoadingVideo
-                            ? _store.finalTrailer == null
-                              ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                              : const Text(
+                          _store.finalTrailer == null && !_store.isLoadingVideo
+                            ? const Text(
                                 'No movie trailer available',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
                               )
-                            : MovieTrailer(
-                              videoId: _store.finalTrailer?.key  ?? '',
-                            ),
+                            : _store.isLoadingVideo
+                              ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                              : MovieTrailer(
+                                videoId: _store.finalTrailer?.key  ?? '',
+                              ),
                           const SizedBox(height: 32),
                         ],
                       ),

@@ -38,7 +38,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     String result = '';
     if(widget.movie.genreIds.isEmpty) return 'No genre';
 
-    widget.genres.where((genre) => widget.movie.genreIds!.contains(genre.id)).forEach((genre) {
+    widget.genres.where((genre) => widget.movie.genreIds.contains(genre.id)).forEach((genre) {
       result += '${genre.name}, ';
     });
 

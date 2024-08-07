@@ -48,7 +48,9 @@ class MovieItem extends StatelessWidget {
           child: Row(
             children: [
               movie.posterPath == null
-                ? const NoImage()
+                ? const NoImage(
+                  key: Key('no-image'),
+                )
                 : Image.network(
                   'https://image.tmdb.org/t/p/w500${movie.posterPath}',
                   width: 100,

@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                'Ilia Movies',
+                'Ília Movies',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

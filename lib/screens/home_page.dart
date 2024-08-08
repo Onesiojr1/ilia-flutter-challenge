@@ -6,9 +6,10 @@ import 'package:ilia_flutter_challenge/widgets/molecules/search_input.dart';
 import 'package:ilia_flutter_challenge/widgets/molecules/try_again.dart';
 import 'package:ilia_flutter_challenge/widgets/organisms/movie_list.dart';
 
+final store = MovieStore();
+
 class HomePage extends StatelessWidget {
   final _scrollController = ScrollController();
-  final store = MovieStore();
 
   HomePage({super.key});
 

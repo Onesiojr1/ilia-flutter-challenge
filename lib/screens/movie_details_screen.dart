@@ -7,6 +7,7 @@ import 'package:ilia_flutter_challenge/widgets/atoms/custom_back_button.dart';
 import 'package:ilia_flutter_challenge/widgets/atoms/no_image.dart';
 import 'package:ilia_flutter_challenge/widgets/atoms/separator.dart';
 import 'package:ilia_flutter_challenge/widgets/molecules/movie_trailer.dart';
+import 'package:intl/intl.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   final Movie movie;
@@ -48,6 +49,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    DateTime dateTime = DateTime.parse(widget.movie.releaseDate);
+    DateFormat newFormat = DateFormat("MM/dd/yyyy");
+    
     return Scaffold(
       backgroundColor:const Color(0xFF07041f),
       body: SingleChildScrollView(
@@ -103,7 +108,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                     ),
                                   ),
                                   Text(
-                                    widget.movie.releaseDate,
+                                    newFormat.format(dateTime),
                                     style: const TextStyle(
                                       color: Color(0xFF82828f),
                                       fontSize: 16,

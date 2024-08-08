@@ -47,12 +47,15 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
     return result.substring(0, result.length - 2);
   }
 
+  String getDateTime(String date) {
+     DateTime dateTime = DateTime.parse(date);
+     DateFormat newFormat = DateFormat("MM/dd/yyyy");
+
+     return newFormat.format(dateTime);
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    DateTime dateTime = DateTime.parse(widget.movie.releaseDate);
-    DateFormat newFormat = DateFormat("MM/dd/yyyy");
-    
     return Scaffold(
       backgroundColor:const Color(0xFF07041f),
       body: SingleChildScrollView(
@@ -108,7 +111,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                     ),
                                   ),
                                   Text(
-                                    newFormat.format(dateTime),
+                                    widget.movie.releaseDate == '' 
+                                      ? 'No release date' 
+                                      : getDateTime(widget.movie.releaseDate),
                                     style: const TextStyle(
                                       color: Color(0xFF82828f),
                                       fontSize: 16,
@@ -120,18 +125,27 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    'Movie Populaity:',
+                                    'Average:',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                     ),
                                   ),
-                                  Text(
-                                    widget.movie.popularity.toString(),
-                                    style: const TextStyle(
-                                      color: Color(0xFF82828f),
-                                      fontSize: 16,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        widget.movie.voteAverage.toStringAsFixed(2),
+                                        style: const TextStyle(
+                                          color: Color(0xFF82828f),
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.star,
+                                        color: Color(0xFF82828f),
+                                        size: 16,
+                                      )
+                                    ],
                                   ),
                                 ],
                               )

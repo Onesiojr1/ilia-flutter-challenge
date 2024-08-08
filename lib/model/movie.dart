@@ -2,7 +2,7 @@ class Movie{
   List<int> genreIds;
   int id;
   String overview;
-  double popularity;
+  double voteAverage;
   String? posterPath;
   String releaseDate;
   String title;
@@ -11,7 +11,7 @@ class Movie{
     required this.genreIds,
     required this.id,
     required this.overview,
-    required this.popularity,
+    required this.voteAverage,
     required this.posterPath,
     required this.releaseDate,
     required this.title,
@@ -21,7 +21,7 @@ class Movie{
     : genreIds = json['genre_ids'].cast<int>(),
       id = json['id'],
       overview = json['overview'],
-      popularity = json['popularity'],
+      voteAverage = json['vote_average'],
       posterPath = json['poster_path'],
       releaseDate = json['release_date'],
       title = json['title'];

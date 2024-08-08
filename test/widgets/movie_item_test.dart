@@ -16,7 +16,7 @@ void main() {
                   genreIds: [1,2], 
                   id: 123, 
                   overview: 'this is a test', 
-                  popularity: 123, 
+                  voteAverage: 123, 
                   posterPath: null, 
                   releaseDate: '2020-01-01', 
                   title: 'test',
